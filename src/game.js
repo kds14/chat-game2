@@ -173,6 +173,7 @@ function handleTyping(key)
 
 function onGetRoomsResponse()
 {   
+    console.log(this.responseText);
     if(this.responseText == null || this.responseText.length === 0)
     {
         return;

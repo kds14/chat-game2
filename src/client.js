@@ -1,15 +1,13 @@
 const game = require("./game.js");
-
-let Client = {}
 const io = require("socket.io-client");
-Client.socket = io();
+socket = io();
 
-Client.movePlayer = function (data)
+exports.movePlayer = function (data)
 {
 	socket.emit("move", data);
 }
 
-Client.sendText = function (data)
+exports.sendText = function (data)
 {
 	socket.emit("sendText", data);
 }
@@ -50,4 +48,4 @@ function findPlayer (id)
 	});
 }
 
-game.setClient(Client);
+game.setClient(exports);
