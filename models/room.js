@@ -17,7 +17,7 @@ class Room
     {
         const p = new Player();
         this.players.push(p);
-        return p.id;
+        return p;
     }
 
 }

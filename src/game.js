@@ -210,6 +210,7 @@ function onGetRoomsResponse()
 
 function onJoinRoomResponse()
 {
+    console.log(this.responseText);
     let r = JSON.parse(this.responseText);
     if(r != null && r.hasOwnProperty("room"))
     {
