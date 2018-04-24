@@ -13,8 +13,8 @@ class Room {
         this.width = 640;
     }
 
-    addPlayer() {
-        const p = new Player();
+    addPlayer(cid) {
+        const p = new Player(cid);
         this.players.push(p);
         return p;
     }
@@ -33,6 +33,18 @@ class Room {
             }
         }
         return succ;
+    }
+
+    removePlayerByCID(cid) {
+        const index = this.players.findIndex(p => p.cid === cid);
+        if (index !== -1) {
+            const a = this.players.splice(index, 1);
+            return a[0].id;
+        }
+        else
+        {
+            return -1;
+        }
     }
 
 }

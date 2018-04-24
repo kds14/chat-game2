@@ -1,7 +1,8 @@
 let nextId = 0;
 
 module.exports = class Player {
-    constructor() {
+    constructor(cid) {
+        this.cid = cid;
         this.id = nextId++;
         this.x = Math.floor(Math.random() * 100) + 200;;
         this.y = Math.floor(Math.random() * 100) + 200;;

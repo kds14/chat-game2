@@ -13,7 +13,7 @@ const gameRouter = function (io) {
 	io.on("connection", function (socket) {
 
 		socket.on("initial-join", function (data) {
-			const r = gameController.joinRoom(data.roomId);
+			const r = gameController.joinRoom(data.roomId, socket.conn.id);
 			socket.broadcast.emit("join", r);
 			socket.emit("initial-join", r);
 		});
@@ -27,6 +27,13 @@ const gameRouter = function (io) {
 		socket.on("send-text", function (data) {
 			if (data.text) {
 				socket.broadcast.emit("send-text", data);
+			}
+		});
+
+		socket.on("disconnect", function () {
+			const result = gameController.removePlayer(socket.conn.id);
+			if (result && result.hasOwnProperty("roomId")) {
+				socket.broadcast.emit("quit", result);
 			}
 		});
 	});

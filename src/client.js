@@ -42,4 +42,8 @@ socket.on("move", function (data) {
 	}
 });
 
+socket.on("quit", function (data) {
+	game.removePlayer(data.playerId, data.roomId);
+})
+
 game.setClient(exports);

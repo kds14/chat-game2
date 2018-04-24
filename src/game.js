@@ -134,6 +134,12 @@ function sendText() {
     Client.sendText(data);
 }
 
+function removePlayer(id, roomId) {
+    if (roomId != room) return;
+    const index = otherPlayers.findIndex(function (x) { return x.id == id; });
+    gameStage.removeChild(otherPlayers.splice(index, 1)[0]);
+}
+
 function displaySpeech(text, player, roomId) {
     if (roomId != room) return;
     if (player.text != null) player.removeChild(player.text);
@@ -355,8 +361,9 @@ function onKeyDown(e) {
 
 exports.handleJoin = handleJoin;
 exports.displaySpeech = displaySpeech;
+exports.findPlayer = findPlayer;
+exports.removePlayer = removePlayer;
 let Client = {}
 exports.setClient = function (client) {
     Client = client;
 }
-exports.findPlayer = findPlayer;
