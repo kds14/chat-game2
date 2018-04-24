@@ -7,7 +7,7 @@ exports.movePlayer = function (data) {
 }
 
 exports.sendText = function (data) {
-	socket.emit("sendText", data);
+	socket.emit("send-text", data);
 }
 
 exports.joinRoom = function (data) {
@@ -27,10 +27,10 @@ socket.on("initial-join", function (data) {
 		data.room.id, data.room.players, true);
 });
 
-socket.on("sendText", function (data) {
+socket.on("send-text", function (data) {
 	p = game.findPlayer(data.id)
 	if (p != null) {
-		game.displaySpeech(data.text, p);
+		game.displaySpeech(data.text, p, data.room);
 	}
 });
 

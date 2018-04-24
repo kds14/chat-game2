@@ -24,7 +24,11 @@ const gameRouter = function (io) {
 			}
 		});
 
-		socket.emit("test-server", "THIS IS A TEST MESSAGE FROM SERVER");
+		socket.on("send-text", function (data) {
+			if (data.text) {
+				socket.broadcast.emit("send-text", data);
+			}
+		});
 	});
 	return router;
 }

@@ -128,12 +128,14 @@ function newPlayer(id, x, y) {
 function sendText() {
     let data = {
         "id": sprites.player.id,
-        "text": currentText, "room": room
+        "text": currentText,
+        "room": room
     }
     Client.sendText(data);
 }
 
-function displaySpeech(text, player) {
+function displaySpeech(text, player, roomId) {
+    if (roomId != room) return;
     if (player.text != null) player.removeChild(player.text);
     player.text = new PIXI.Text(text, { align: "center" })
     player.text.anchor.set(0.5);
@@ -161,7 +163,7 @@ function handleTyping(key) {
             break;
         case "Enter":
             sendText();
-            displaySpeech(currentText, sprites.player);
+            displaySpeech(currentText, sprites.player, room);
             currentText = "";
             break;
         default:
@@ -315,6 +317,7 @@ function keepPlayerInBorders(player) {
 
 function onKeyDown(e) {
     e.preventDefault();
+    if (sprites.player == null) return;
     let x = sprites.player.position.x;
     let y = sprites.player.position.y;
     let move = false;
