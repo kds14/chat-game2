@@ -2,13 +2,31 @@ const express = require("express");
 const router = express.Router();
 const gameController = require("../controllers/gameController")
 
-router.get("/rooms", function(req, res, next) {
-  const rooms = {rooms: gameController.getRooms()};
-  res.send(rooms);
-});
+const gameRouter = function (io) {
+	router.get("/rooms", function (req, res, next) {
+		const rooms = { rooms: gameController.getRooms() };
+		res.send(rooms);
+	});
 
-router.post("/join", function(req, res, next) {
-  res.send(gameController.joinRoom(req.body.room));
-});
 
-module.exports = router;
+	// routing for socket messages
+	io.on("connection", function (socket) {
+
+		socket.on("initial-join", function (data) {
+			const r = gameController.joinRoom(data.roomId);
+			socket.broadcast.emit("join", r);
+			socket.emit("initial-join", r);
+		});
+
+		socket.on("move", function (data) {
+			if (gameController.move(data)) {
+				socket.broadcast.emit("move", data);
+			}
+		});
+
+		socket.emit("test-server", "THIS IS A TEST MESSAGE FROM SERVER");
+	});
+	return router;
+}
+
+module.exports = gameRouter;

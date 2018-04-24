@@ -1,23 +1,21 @@
 const room = require("../models/room");
 
-exports.createRoom = function()
-{
-    const r = room.createRoom();
+exports.createRoom = function () {
+    room.createRoom();
 }
 
-exports.joinRoom = function(index)
-{
-    let r = room.rooms[index];
-    p = r.addPlayer(room);
-    data = {room:r, client_id:p.id};
-    // broadcast here
-    console.log(data);
+exports.joinRoom = function (index) {
+    const r = room.rooms[index];
+    data = { room: r, player: r.addPlayer(room) };
     return data;
 }
 
-exports.createRoom();
-
-exports.getRooms = function()
-{
+exports.getRooms = function () {
     return room.rooms.length == 0 ? "" : room.rooms;
 }
+
+exports.move = function (data) {
+    return room.rooms[data.room].movePlayer(data);
+}
+
+exports.createRoom();
